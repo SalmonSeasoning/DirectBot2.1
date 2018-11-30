@@ -321,7 +321,7 @@ client.on('message', (message) => {
 					}
 
 				console.log(`User @${message.author.username}#${message.author.discriminator} (ID: ${message.author.id}) is using command '${Commands[command].returnData().commandName}' in guild ${message.guild.name} (ID: ${message.guild.id}) [${new Date()}]`);
-				let text = message.content.split(' ');
+				let text = message.cleanContent.split(' ');
 				text.shift();
 				text = text.join(' ');
 				Commands[command].call(message, text);
