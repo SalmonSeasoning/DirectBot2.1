@@ -76,7 +76,7 @@ Commands.push(
 		let list = [];
 		for (cmd in Commands) {
 			let data = Commands[cmd].returnData();
-			list.push(`++${data.commandName.toLowerCase()}${(data.commandElevated?' (elevated)':'')} -- ${data.commandDescription}`);
+			list.push(`${botPrefix}${data.commandName.toLowerCase()}${(data.commandElevated?' (elevated)':'')} -- ${data.commandDescription}`);
 		}
 		message.reply(formatSnippet(list.join('\n')));
 	}, 'Lists available commands.')
