@@ -8,18 +8,35 @@
 const config = {
 	botPrefix: "++",
 	botToken: "",
-	adminUserIds: ['']
+	adminUserIds: [''], 
+	database: {
+		dbhost: '',
+		dbuser: '',
+		dbpass: '',
+		dbname: '',
+		requireConnection: false
+	}
 };
+
+// make the object static so that things don't change (comment out if you are planning on changing values later!)
+Object.freeze(config);
 
 /*	Global Constants and Variables	*/
 const Discord = require('discord.js'),
 	client = new Discord.Client(),
 	fs = require('fs'),
-	{ botToken, botPrefix, adminUserIds } = config;
+	{ botToken, botPrefix, adminUserIds, database } = config,
+	MySQL = require('mysql'),
+	MySQLConnection = MySQL.createConnection({
+		host: database.dbhost,
+		user: database.dbuser,
+		password: database.dbpass,
+		database: database.dbname
+	});
 
 /*	Classes	*/
 class Command {
-	constructor(name, func, description, elevated) {
+	constructor(name, func, description, elevated, requireDB) {
 		this.commandName = name;
 		this.commandFunction = func;
 		if (objectExists(description)) {
@@ -32,8 +49,19 @@ class Command {
 		} else {
 			this.commandElevated = false;
 		}
+		if(objectExists(requireDB)) {
+			this.commandRequiresDB = boolean(requireDB);
+		}else{
+			this.commandRequiresDB = false;
+		}
+	}
+	static requireDBFunc () {
+		return console.error('Attempted to execute a command, but ran into Database Connection Error.');
 	}
 	call() {
+		if(MySQLConnection.state === 'disconnected' && this.commandRequiresDB === true){
+			return requireDBFunc(...arguments);
+		}
 		this.commandFunction(...arguments);
 	}
 	returnData() {
@@ -41,7 +69,8 @@ class Command {
 			commandName: this.commandName,
 			commandFunction: this.commandFunction,
 			commandDescription: this.commandDescription,
-			commandElevated: this.commandElevated
+			commandElevated: this.commandElevated,
+			commandRequiresDB: this.commandRequiresDB
 		}
 	}
 };
@@ -280,28 +309,28 @@ Commands.push(
 			);
 	}, 'Find out who the server owner is.')
 );
-/*
-Commands.push(
-	new Command('add-emoji', (message, text) => {
-		if(message.member.hasPermission('MANAGE_EMOJIS')){
-			if(message.attachments.first())
-			{
-				message.guild.createEmoji(message.attachments.first(), text)
-			}
-		}else{
-			message.reply('You do not have permission to add an emoji!');
-		}
-	}, 'Add an emoji. Requires that an image is attached.')
-);*/
 
 /*	Bot Ready	*/
 client.on('ready', () => {
 	if (!client.user.bot) {
-		console.log('Signed in as a user account! Exiting.');
+		console.error('Signed in as a user account! Exiting.');
 		process.exit(0);
 	}
 	console.log(`Logged in as @${client.user.username}#${client.user.discriminator} and connected to ${client.guilds.array().length} guild(s)!`);
 	console.log(`Using prefix "${botPrefix}" for commands.`);
+	MySQLConnection.connect((err)=>{
+		if(err)
+		{
+			console.error(err.message);
+			console.error('Failed to connect to MySQL database!');
+			// honestly, you should just leave requireConnection as 'false' so that the app doesn't just exit on startup.
+			if(requireConnection)
+			{
+				console.error('Exiting application due to failure to connect to the database.');
+				process.exit(0);
+			}
+		} else console.log('Successfully connected to MySQL database!');
+	});
 	client.user.setActivity(`${botPrefix}help`);
 	client.user.setStatus('online');
 });
@@ -350,6 +379,8 @@ client.on('debug', (i) => console.log);
 
 /*	Login	*/
 client.login(botToken);
+
+// courtesy of iComputer7:
 
 /* This is so the docker container stops on Ctrl+C */
 process.on("SIGINT", () => {
