@@ -35,7 +35,7 @@ To start off, you need to append a command to the array of commands. Yes, there 
 To do so, we will start out like this:
 ```
 Commands.push(
-  new Command();
+  new Command()
 );
 ```
 Commands is the array and you're pushing a new Command (class) to the array.
@@ -69,4 +69,4 @@ database:
   requireConnection: false
 }
   ```
-  requireConnection is just a bool that decides whether or not to allow the script to start up without an active database connection. This whole database feature is still a work in progress if you haven't read the Custom Commands section. If for some reason, the main repository is not working, go try out the stable version in Releases.
+requireConnection is just a bool that decides whether or not to allow the script to start up without an active database connection. This whole database feature is still a work in progress if you haven't read the Custom Commands section. If for some reason, the main repository is not working, go try out the stable version in Releases.
