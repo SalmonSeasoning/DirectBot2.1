@@ -7,6 +7,25 @@ DirectBot2.1 uses JavaScript classes (ES6 standard) and [Discord.js](https://git
 # Installing
 Since this is just a standard Node.js package, all you really have to do is make sure that Discord.js (+other dependencies) are installed .. and obviously Node.js. You must also have a decent internet connection and a decent system (unless you're okay with having a slow, barely functioning bot), but I mean, it works just fine on a decently sized Discord server using just a Raspberry Pi 3B.
 
+# Docker (Linux only)
+Running DirectBot in Docker is by far the quickest and easiest way to run DirectBot. Install Docker by running these commands:
+```
+curl -fsSL https://get.docker.com | bash -
+sudo usermod -aG $(whoami) docker
+```
+Make sure to sign out and sign back in (or reboot) so that you don't have to run Docker commands with sudo. Now you want to clone the repo and cd into the folder. Add your token to `start.js` and run this:
+```
+docker build -t directbot .
+```
+This should not take very long but if you have a slow connection it could take a while to download the necessary files. When it finishes run this command to start the bot:
+```
+docker run directbot
+```
+You should see the bot come online. If you want to run DirectBot in the background then run this instead:
+```
+docker run -d directbot
+```
+
 # Adding custom commands
 So obviously you need to know JavaScript. If you're a TypeScripter, I'm not too sure on the compatibility as I don't use it. I'm good enough at JavaScript that transforming it into a static version of the same language seems very unnecessary.
 
