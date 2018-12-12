@@ -5,7 +5,7 @@ DirectBot2.1 (a.k.a. DirectBot Remastered) is a modified, more object-oriented N
 DirectBot2.1 uses JavaScript classes (ES6 standard) and [Discord.js](https://github.com/hydrabolt/discord.js) for an easier, more organized way of implementing custom commands. (Note: Discord.js Commando is NOT used!) While, right now, it's definitely not the cleanest code in the whole galaxy, it shouldn't be too hard to work with and clean up if necessary. It also allows for ease of use with commands restricted to only certain users ("bot administrators"). This is especially useful when you want to have yee ol' eval command accessible to you and your fellow developers. Or who knows? Maybe just for you. You really do need to make some friends.
 
 # Installing
-Since this is just a standard Node.js package, all you really have to do is make sure that Discord.js (+other dependencies) are installed .. and obviously Node.js. You must also have a decent internet connection and a decent system (unless you're okay with having a slow, barely functioning bot), but I mean, it works just fine on a decently sized Discord server using just a Raspberry Pi 3B.
+Since this is just a standard Node.js package, all you really have to do is make sure that Discord.js (+other dependencies) are installed .. and obviously Node.js. You must also have a decent internet connection and a decent system (unless you're okay with having a slow, barely functioning bot), but I mean, it works just fine on a decently sized Discord server using just a Raspberry Pi 3B. __You can run from the main repository but it is recommended you go to Releases to find a stable version!__
 
 # Docker (Linux only)
 Running DirectBot in Docker is by far the quickest and easiest way to run DirectBot. Install Docker by running these commands:
@@ -60,12 +60,13 @@ Just go to [Discord Developers](https://discordapp.com/developers) and register 
 # Database
 Okay, this is not required, but basically in the config object at the top of the script, there will be inputs for database information in case you want to add one. 
 ```
-database: {
-		dbhost: '',
-		dbuser: '',
-		dbpass: '',
-		dbname: '',
-		requireConnection: false
-	}
+database:
+{
+  dbhost: '',
+  dbuser: '',
+  dbpass: '',
+  dbname: '',
+  requireConnection: false
+}
   ```
-  requireConnection is just a bool that decides whether or not to allow the script to start up without an active Database connection. This whole database feature is still a work in progress if you haven't read the Custom Commands section. If for some reason, the main repository is not working, go try out the stable version in Releases.
+  requireConnection is just a bool that decides whether or not to allow the script to start up without an active database connection. This whole database feature is still a work in progress if you haven't read the Custom Commands section. If for some reason, the main repository is not working, go try out the stable version in Releases.
