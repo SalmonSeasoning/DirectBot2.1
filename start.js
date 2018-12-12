@@ -350,3 +350,9 @@ client.on('debug', (i) => console.log);
 
 /*	Login	*/
 client.login(botToken);
+
+/* This is so the docker container stops on Ctrl+C */
+process.on("SIGINT", () => {
+	client.destroy();
+	process.exit();
+})
