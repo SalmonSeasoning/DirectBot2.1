@@ -331,6 +331,9 @@ client.on('ready', () => {
 	});
 	client.user.setActivity(`${botPrefix}help`);
 	client.user.setStatus('online');
+	if (config.adminUserIds.length == 1 && config.adminUserIds[0] == '') {
+		console.error('WARNING: There are no bot admins. Nobody will be able to run elevated commands.');
+	}
 });
 
 client.on('message', (message) => {
