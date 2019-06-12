@@ -324,7 +324,7 @@ client.on('ready', () => {
 			console.error(err.message);
 			console.error('Failed to connect to MySQL database!');
 			// honestly, you should just leave requireConnection as 'false' so that the app doesn't just exit on startup.
-			if(requireConnection)
+			if(config.database.requireConnection)
 			{
 				console.error('Exiting application due to failure to connect to the database.');
 				process.exit(0);
