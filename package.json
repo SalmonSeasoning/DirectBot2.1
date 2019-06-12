@@ -9,6 +9,7 @@
   "author": "Ty Qualters",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "mysql": "latest"
   }
 }
