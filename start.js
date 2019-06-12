@@ -319,13 +319,11 @@ client.on('ready', () => {
 	console.log(`Logged in as @${client.user.username}#${client.user.discriminator} and connected to ${client.guilds.array().length} guild(s)!`);
 	console.log(`Using prefix "${botPrefix}" for commands.`);
 	MySQLConnection.connect((err)=>{
-		if(err)
-		{
+		if(err) {
 			console.error(err.message);
 			console.error('Failed to connect to MySQL database!');
 			// honestly, you should just leave requireConnection as 'false' so that the app doesn't just exit on startup.
-			if(config.database.requireConnection)
-			{
+			if(config.database.requireConnection) {
 				console.error('Exiting application due to failure to connect to the database.');
 				process.exit(0);
 			}
