@@ -7,7 +7,7 @@
 /*	Configuration	*/
 const config = {
 	botPrefix: "++",
-	botToken: "",
+	botToken: "" || process.env.BOT_TOKEN,
 	adminUserIds: [''], 
 	database: {
 		dbhost: '',
